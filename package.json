@@ -1,7 +1,12 @@
 {
   "dependencies": {
+    "body-parser": "^1.20.2",
     "cda-schematron": "^1.0.1",
     "cda-schematron-validator": "^1.1.12",
+    "chalk": "4.1.2",
+    "express": "^4.19.2",
+    "libxmljs2": "^0.35.0",
+    "pretty-data": "^0.40.0",
     "xml2json": "^0.12.0"
   }
 }
