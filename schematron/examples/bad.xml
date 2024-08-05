@@ -30,6 +30,7 @@ Clinical Notes Companion Guide, Release 4.
     <templateId root="2.16.840.1.113883.10.20.22.1.2" extension="2024-05-01" />
     <!-- Globally unique identifier for the document  -->
     <id extension="TT988" root="2.16.840.1.113883.19.5.99999.1" />
+    <id2 value="This should be a schema error" />
     <code code="34133-9" displayName="Summarization of Episode Note"
         codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
     <!-- Title of this document -->
@@ -587,7 +588,7 @@ Clinical Notes Companion Guide, Release 4.
                             <text>
                                 <reference value="#tobaccouse" />
                             </text>
-                            <statusCode code="completed" />
+                            <statusCode code="invalid" />
                             <effectiveTime>
                                 <!-- The low value reflects the start date of the observation/value
                                 (moderate smoker) -->
@@ -602,6 +603,7 @@ Clinical Notes Companion Guide, Release 4.
                             <!-- 
                             <value xsi:type="CD" nullFlavor="UNK" />
                             -->
+                            
                         </observation>
                     </entry>    
                 </section>
