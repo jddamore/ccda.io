@@ -12,4 +12,52 @@
   color: white;
 }
 
+.lineCounter {
+  display: block;
+  float: left;
+  font-family:lucida console, courier new, courier, monospace;
+  font-size: 14px;
+  line-height: 18px;
+  border-color: transparent;
+  overflow-y: hidden;
+  text-align: right;
+  box-shadow: none;
+  color: #707070;
+  background-color: #d8d8d8;
+  position: left;
+  width: 3.5rem;
+  /* Determine appearance of line counter */
+  background-color:#3E3D32;
+  border-color:#3E3D32;
+  color:#928869;
+}
+
+.codeArea {
+  padding-left: calc(3.5rem + 5px);
+  width:100%;
+  /* Determine appearance of code editor */
+  background-color:#272822;
+  border-color:#272822;
+  color:#ffffff;
+}
+
+.lineCounter:focus-visible,
+.codeArea:focus-visible {
+  outline:none;
+}
+
+.codeArea, .lineCounter {
+  font-family: lucida console, courier new, courier, monospace;
+  margin: 0;
+  padding: 10px 0;
+  border-radius: 0;
+  resize: none;
+  font-size: 14px;
+  line-height: 18px;
+  outline: none;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 textarea { resize: none; }
