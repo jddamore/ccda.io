@@ -12,6 +12,7 @@ export class App extends Component {
     validate: false,
     render: false,
     fragment: false,
+    convert: false,
   };
 
   navigate = (location) => {

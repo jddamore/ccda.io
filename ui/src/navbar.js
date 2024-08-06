@@ -26,6 +26,10 @@ const pages = [
     display: "Fragment",
   },
   {
+    id: "convert",
+    display: "CDA↔FHIR",
+  },
+  {
     id: "about",
     display: "About",
   },
