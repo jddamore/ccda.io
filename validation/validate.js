@@ -6,7 +6,7 @@ const chalk = require('chalk');
 
 var bad_xmlPath = "./examples/v3bad.xml";
 var good_xmlPath = "./examples/v3ccd_header.xml";
-var v21_xml = "./examples/v21validEmpty.xml"
+var v21_xml = "./examples/v21valid.xml"
 var schematronPath = "./ccda-3-0.sch";
 var v21schematronPath = './ccda-2-1.sch';
 
@@ -45,7 +45,7 @@ console.log(
   })
 );
 
-if (schema_results.pass !== true || schematron_results.errors.length) {
+if (schema_results.pass !== true || schematron_results.errors.length || schematron_results.warnings.length) {
   console.log(chalk.red('happy path 3.0 failed'));
   throw ('happy 3.0 failure');
 }
@@ -60,7 +60,7 @@ console.log(
   })
 );
 
-if (schema_results.pass !== true || schematron_results.errors.length) {
+if (schema_results.pass !== true || schematron_results.errors.length || schematron_results.warnings.length) {
   console.log(chalk.red('happy path 2.1 failed'));
   throw ('happy 2.1 failure');
 }
@@ -98,6 +98,8 @@ exports.validate = function (xml, info) {
 exports.validate21 = function (xml, info) {
   let schema_results = schema(xml);
   let schematron_results = validator.validate(xml, v21schematron);
+  schematron_results.ignored.push({test: "CONF:1198-32934 through 1198-32946", type: "error"})
+  schematron_results.ignored.push({test: "1098-32775", type: "warning"})
   return {
       schema: schema_results,
       schematron: schematron_results, 
