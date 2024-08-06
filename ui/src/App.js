@@ -4,6 +4,7 @@ import ResponsiveAppBar from "./navbar";
 import Validate from "./validate";
 import Render from "./render";
 import Fragment from "./fragment";
+import Convert from "./convert";
 import About from "./about";
 
 export class App extends Component {
@@ -21,6 +22,7 @@ export class App extends Component {
       validate: false,
       render: false,
       fragment: false,
+      convert: false
     };
     if (location) {
       newState[location] = true;
@@ -44,6 +46,9 @@ export class App extends Component {
           </div>
           <div style={{ display: this.state.fragment ? "inline" : "none" }}>
             <Fragment />
+          </div>
+          <div style={{ display: this.state.convert ? "inline" : "none" }}>
+            <Convert />
           </div>
           <div style={{ display: this.state.about ? "inline" : "none" }}>
             <About />

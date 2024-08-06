@@ -17,6 +17,7 @@ export class Validate extends Component {
     v3: true,
     lineCount: 1,
     scrollTop: 0,
+    results: null
   };
 
   rows = 50;
@@ -40,6 +41,7 @@ export class Validate extends Component {
     this.setState({
       content: "",
       lineCount: 1,
+      results: null
     });
   };
 
@@ -183,6 +185,9 @@ export class Validate extends Component {
               >
                 3.0
               </FormLabel>
+            </div>
+            <div style={{clear: 'left', display: this.state.results ? "block" : "none" }}>
+                yo
             </div>
             <div style={this.container_style}>
               <textarea
