@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const validate = require("./validate");
 const bodyParser = require("body-parser");
+const cors = require('cors')
 
 let now = new Date().toISOString();
 
@@ -17,6 +18,8 @@ let info = {
 
 let info21 = info
 info21.schematronVersion = 'C-CDA R2.1 with Companion Guide from https://github.com/HL7/CDA-ccda-2.1 and https://github.com/HL7/CDA-ccda-companion'
+
+app.use(cors());
 
 app.use(bodyParser.raw({ inflate: true, limit: "30mb", type: "*/*" }));
 

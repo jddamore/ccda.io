@@ -1,5 +1,6 @@
-import React, { Component, useRef } from "react";
-import Textarea from "@mui/joy/Textarea";
+import React, { Component } from "react";
+import xmlChecker from "xmlchecker";
+import axios from "axios";
 import Button from "@mui/material/Button";
 import Switch from "@mui/material/Switch";
 import FormLabel from "@mui/material/FormLabel";
@@ -10,6 +11,33 @@ import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import xmlFormat from "xml-formatter";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/joy/CircularProgress";
+
+const preStyle = {
+  borderColor: "gray",
+  borderStyle: "dashed",
+  borderWidth: "thin",
+  textAlign: "left",
+  padding: "5px",
+  margin: "10px",
+  minHeight: "10vh",
+  maxHeight: "60vh",
+  overflowY: "scroll",
+};
+
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 export class Validate extends Component {
   state = {
@@ -17,7 +45,12 @@ export class Validate extends Component {
     v3: true,
     lineCount: 1,
     scrollTop: 0,
-    results: null
+    results: {
+      schema: null,
+      schematron: null,
+    },
+    showResults: false,
+    showModal: false
   };
 
   rows = 50;
@@ -41,8 +74,83 @@ export class Validate extends Component {
     this.setState({
       content: "",
       lineCount: 1,
-      results: null
+      showResults: false,
+      schemaPass: false,
+      schematronErrors: 0,
     });
+  };
+
+  checkSubmit = () => {
+    this.setState({
+      showModal: true
+    })
+    let passingCheck = false;
+    let checkContent = this.state.content;
+    if (!this.state.content) {
+      alert("No information in textbox");
+      this.setState({
+        showModal: false
+      });
+    } else {
+      checkContent = checkContent.trimStart();
+      // alert(checkContent.slice(0,6));
+      if (checkContent.slice(0, 6) !== "<?xml") {
+        // alert('adding opening')
+        checkContent =
+          '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
+          checkContent;
+      }
+      try {
+        xmlChecker.check(checkContent);
+        passingCheck = true;
+      } catch (error) {
+        alert(
+          "Not submitting due to invalid XML! XML Parser: " +
+            error.name +
+            " at " +
+            error.line +
+            "," +
+            error.column +
+            ": " +
+            error.message
+        );
+      }
+      if (passingCheck) {
+        let url = 'http://localhost/'
+        if (this.state.v3) {
+          url += 'validate'
+        }
+        else {
+          url += 'validate21'
+        }
+        axios
+          .post(url, this.state.content)
+          .then((res, err) => {
+            //console.log(res);
+            //console.log(res.data);
+            if (err) {
+              alert(err);
+            } else {
+              if (res.data && res.data.schema && res.data.schematron) {
+                this.setState({
+                  results: res.data,
+                  schemaPass: res.data.schema.pass,
+                  schematronErrors: res.data.schematron.errorCount,
+                  showResults: true,
+                  showModal: false
+                });
+              } else {
+                alert(`unexpected response: ${JSON.stringify(res.data)}`);
+              }
+            }
+          });
+      }
+      else {
+        this.setState({
+          showModal: false
+        });
+      }
+    }
   };
 
   schematron = (event) => {
@@ -70,6 +178,7 @@ export class Validate extends Component {
         collapseContent: true,
         lineSeparator: "\n",
       });
+      newFormat = newFormat.replace("<?xml -stylesheet", "<?xml-stylesheet");
       let lineCount = newFormat.split("\n").length;
       this.setState({
         content: newFormat,
@@ -80,7 +189,7 @@ export class Validate extends Component {
   };
 
   createLineCount = () => {
-    let outarr = new Array();
+    let outarr = [];
     for (var x = 0; x < this.state.lineCount; x++) {
       outarr[x] = x + 1 + ".";
     }
@@ -108,6 +217,7 @@ export class Validate extends Component {
         lineSeparator: "\n",
       });
       lineCount = formatted.split("\n").length;
+      formatted = formatted.replace("<?xml -stylesheet", "<?xml-stylesheet");
     } catch (err) {
       if (err) alert("unable to formate XML, check syntax");
       lineCount = unformatted.split("\n").length;
@@ -139,6 +249,7 @@ export class Validate extends Component {
                 startIcon={<SendIcon />}
                 variant="contained"
                 style={{ marginRight: "40px" }}
+                onClick={this.checkSubmit}
               >
                 Validate
               </Button>
@@ -186,9 +297,85 @@ export class Validate extends Component {
                 3.0
               </FormLabel>
             </div>
-            <div style={{clear: 'left', display: this.state.results ? "block" : "none" }}>
-                yo
-            </div>
+            <Grid
+              container
+              style={{
+                float: "left",
+                display: this.state.showResults ? "block" : "none",
+                width: "100%",
+              }}
+            >
+              <Grid
+                item
+                md={6}
+                xs={12}
+                style={{ float: "left", width: "100%" }}
+              >
+                <span
+                  style={{
+                    color: this.state.schemaPass ? "green" : "red",
+                  }}
+                >
+                  Schema Results
+                </span>
+                <span
+                  style={{
+                    color: "green",
+                    display: this.state.schemaPass ? "inline" : "none",
+                  }}
+                >
+                  {" "}
+                  ✓
+                </span>
+                <span
+                  style={{
+                    color: "red",
+                    display: this.state.schemaPass ? "none" : "inline",
+                  }}
+                >
+                  {" "}
+                  ✗
+                </span>
+                <pre style={preStyle}>
+                  {JSON.stringify(this.state.results.schema, null, 2)}
+                </pre>
+              </Grid>
+              <Grid
+                item
+                md={6}
+                xs={12}
+                style={{ float: "left", width: "100%" }}
+              >
+                <span
+                  style={{
+                    color: this.state.schematronErrors ? "red" : "green",
+                  }}
+                >
+                  Schematron Results
+                </span>
+                <span
+                  style={{
+                    color: "green",
+                    display: this.state.schematronErrors ? "none" : "inline",
+                  }}
+                >
+                  {" "}
+                  ✓
+                </span>
+                <span
+                  style={{
+                    color: "red",
+                    display: this.state.schematronErrors ? "inline" : "none",
+                  }}
+                >
+                  {" "}
+                  ✗
+                </span>
+                <pre style={preStyle}>
+                  {JSON.stringify(this.state.results.schematron, null, 2)}
+                </pre>
+              </Grid>
+            </Grid>
             <div style={this.container_style}>
               <textarea
                 id="line1"
@@ -227,6 +414,28 @@ export class Validate extends Component {
             SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
           </div>
         </Box>
+        <Modal
+          id="modalLoading"
+          open={this.state.showModal}
+          onClose={this.handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={modalStyle}>
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              style={{ textAlign: "center" }}
+            >
+              Submitting data...
+              <br />
+              <CircularProgress />
+              <br />
+              This window will automatically close when data received
+            </Typography>
+          </Box>
+        </Modal>
       </div>
     );
   }

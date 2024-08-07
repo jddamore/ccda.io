@@ -34,7 +34,7 @@ export class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <ResponsiveAppBar navigate={this.navigate} />
+          <ResponsiveAppBar navigate={this.navigate} active={this.state}/>
         </header>
         <div>
           <br />

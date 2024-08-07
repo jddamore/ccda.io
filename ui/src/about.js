@@ -1,17 +1,13 @@
 import React, { Component } from "react";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CardActionArea from "@mui/material/CardActionArea";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
 
+/*
 const Item = styled(Paper)(({ theme }) => ({
   //  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   // ...theme.typography.body2,
@@ -36,6 +32,7 @@ const styles = {
     backgroundColor: "white",
   },
 };
+*/
 
 export class About extends Component {
   render() {
@@ -46,41 +43,44 @@ export class About extends Component {
           <span style={{ color: "#aaaaaa" }}>Tools for C-CDA Documents</span>
         </Typography>{" "}
         <Grid container spacing={2}>
-          <Grid xs={1} md={2}></Grid>
-          <Grid xs={10} md={8} style={{ textAlign: "left" }}>
+          <Grid item xs={1} md={2}></Grid>
+          <Grid item xs={10} md={8} style={{ textAlign: "left" }}>
             <Typography
               variant="body1"
               gutterBottom
               style={{ fontSize: "30px", color: "#555555" }}
             >
-              <p>
-                Consolidated Clinical Document Architecture (C-CDA) is a medical
-                data standard, used millions of times each day to exchange
-                health information. This web app provides the utilities listed
-                below for handling C-CDA documents:
-              </p>
-              <ul>
-                <li>
-                  <Button style={{ fontSize: "30px" }}>VALIDATE</Button>: A
-                  Validator of C-CDA Documents
-                </li>
-                <li>
-                  <Button style={{ fontSize: "30px" }}>RENDER</Button>: View
-                  your C-CDA Using XLST Stylesheets
-                </li>
-                <li>
-                  <Button style={{ fontSize: "30px" }}>FRAGMENT</Button>:
-                  Validate a C-CDA snippet
-                </li>
-                <li>
-                  <Button style={{ fontSize: "30px" }}>CDA↔FHIR</Button>:
-                  Highlight CDA to FHIR Conversions
-                </li>
-              </ul>
-              <p>Here are some common useful links, hosted elsewhere:</p>
+              Consolidated Clinical Document Architecture (C-CDA) is a medical
+              data standard, used millions of times each day to exchange health
+              information. This web app provides the utilities listed below for
+              handling C-CDA documents:
             </Typography>
+            <ul style={{ fontSize: "30px", color: "#555555"}}>
+              <li>
+                <Button style={{ fontSize: "30px" }}>VALIDATE</Button>: A
+                Validator of C-CDA Documents
+              </li>
+              <li>
+                <Button style={{ fontSize: "30px" }}>RENDER</Button>: View your
+                C-CDA Using XLST Stylesheets
+              </li>
+              <li>
+                <Button style={{ fontSize: "30px" }}>FRAGMENT</Button>: Validate
+                a C-CDA Fragment
+              </li>
+              <li>
+                <Button style={{ fontSize: "30px" }}>CDA↔FHIR</Button>:
+                Highlight CDA to FHIR Conversions
+              </li>
+            </ul>
+            Here are some other useful resources, hosted elsewhere:
+            <Typography
+              variant="body1"
+              gutterBottom
+              style={{ fontSize: "30px", color: "#555555" }}
+            ></Typography>
           </Grid>
-          <Grid xs={1} md={2}></Grid>
+          <Grid item xs={1} md={2}></Grid>
         </Grid>
         <Card sx={{ width: "20vw", marginLeft: "6%", float: "left" }}>
           <CardActionArea
@@ -175,35 +175,32 @@ export class About extends Component {
           </CardActionArea>
         </Card>
         <Grid container spacing={2}>
-          <Grid xs={1} md={2}></Grid>
-          <Grid xs={10} md={8} style={{ textAlign: "left" }}>
+          <Grid item xs={1} md={2}></Grid>
+          <Grid item xs={10} md={8} style={{ textAlign: "left" }}>
             <Typography
               variant="body1"
               gutterBottom
               style={{ fontSize: "20px", color: "#555555" }}
             >
-              <p>
-                This website is provided free of charge and is publicly
-                available through this{" "}
-                <a href="https://github.com/jddamore/ccda.io" targte="_blank">
-                  GitHub respository
-                </a>
-                . Downloading a local instance is best when dealing with
-                protected health information.{" "}
-              </p>
-              <p>
-                THE SOFTWARE AND INFORMATION ARE PROVIDED "AS IS", WITHOUT
-                WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-                LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-                PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-                AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-                OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-                OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-                SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-              </p>
+              This website is provided free of charge and is publicly available
+              through this{" "}
+              <a href="https://github.com/jddamore/ccda.io" targte="_blank">
+                GitHub respository
+              </a>
+              . Downloading a local instance is best when dealing with protected
+              health information. Click
+              <Button>here</Button> to check status of services may be checked
+              THE SOFTWARE AND INFORMATION ARE PROVIDED "AS IS", WITHOUT
+              WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+              LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+              PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+              AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+              OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+              OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+              OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             </Typography>
           </Grid>
-          <Grid xs={1} md={2}></Grid>
+          <Grid item xs={1} md={2}></Grid>
         </Grid>
         <div>
           <div></div>

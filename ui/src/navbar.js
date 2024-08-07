@@ -158,7 +158,14 @@ export class ResponsiveAppBar extends Component {
                   id={page.id}
                   key={page.display}
                   onClick={this.changeUrl}
-                  sx={{ my: 2, mr: 4, color: "white", display: "block" }}
+                  sx={{
+                    my: 2,
+                    mr: 4,
+                    color: this.props.active[page.id] ? "white" : "lightgray",
+                    display: "block",
+                    fill: "blue",
+                    fontWeight: this.props.active[page.id] ? 700 : 400
+                  }}
                 >
                   {page.display}
                 </Button>
