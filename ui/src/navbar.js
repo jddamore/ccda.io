@@ -19,7 +19,7 @@ const pages = [
   },
   {
     id: "render",
-    display: "Render C-CDA",
+    display: "Render",
   },
   {
     id: "fragment",
