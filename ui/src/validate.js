@@ -48,9 +48,10 @@ export class Validate extends Component {
     results: {
       schema: null,
       schematron: null,
+      info: {},
     },
     showResults: false,
-    showModal: false
+    showModal: false,
   };
 
   rows = 50;
@@ -82,14 +83,14 @@ export class Validate extends Component {
 
   checkSubmit = () => {
     this.setState({
-      showModal: true
-    })
+      showModal: true,
+    });
     let passingCheck = false;
     let checkContent = this.state.content;
     if (!this.state.content) {
       alert("No information in textbox");
       this.setState({
-        showModal: false
+        showModal: false,
       });
     } else {
       checkContent = checkContent.trimStart();
@@ -116,38 +117,34 @@ export class Validate extends Component {
         );
       }
       if (passingCheck) {
-        let url = 'http://localhost/'
+        let url = "http://localhost/";
         if (this.state.v3) {
-          url += 'validate'
+          url += "validate";
+        } else {
+          url += "validate21";
         }
-        else {
-          url += 'validate21'
-        }
-        axios
-          .post(url, this.state.content)
-          .then((res, err) => {
-            //console.log(res);
-            //console.log(res.data);
-            if (err) {
-              alert(err);
+        axios.post(url, this.state.content).then((res, err) => {
+          //console.log(res);
+          //console.log(res.data);
+          if (err) {
+            alert(err);
+          } else {
+            if (res.data && res.data.schema && res.data.schematron) {
+              this.setState({
+                results: res.data,
+                schemaPass: res.data.schema.pass,
+                schematronErrors: res.data.schematron.errorCount,
+                showResults: true,
+                showModal: false,
+              });
             } else {
-              if (res.data && res.data.schema && res.data.schematron) {
-                this.setState({
-                  results: res.data,
-                  schemaPass: res.data.schema.pass,
-                  schematronErrors: res.data.schematron.errorCount,
-                  showResults: true,
-                  showModal: false
-                });
-              } else {
-                alert(`unexpected response: ${JSON.stringify(res.data)}`);
-              }
+              alert(`unexpected response: ${JSON.stringify(res.data)}`);
             }
-          });
-      }
-      else {
+          }
+        });
+      } else {
         this.setState({
-          showModal: false
+          showModal: false,
         });
       }
     }
@@ -242,178 +239,181 @@ export class Validate extends Component {
   render() {
     return (
       <div>
-        <Grid item>
-          <Box>
-            <div style={{ marginBottom: "20px" }}>
-              <Button
-                startIcon={<SendIcon />}
-                variant="contained"
-                style={{ marginRight: "40px" }}
-                onClick={this.checkSubmit}
-              >
-                Validate
-              </Button>
-              <Button
-                startIcon={<DriveFolderUploadIcon />}
-                variant="contained"
-                component="label"
-                style={{ marginRight: "40px" }}
-              >
-                Upload from File
-                <input type="file" hidden onChange={this.handleChange} />
-              </Button>
-              <Button
-                startIcon={<DeleteIcon />}
-                color="error"
-                variant="contained"
-                style={{ marginRight: "40px" }}
-                onClick={this.clear}
-              >
-                Clear
-              </Button>
-              Schematron Selection:
-              <FormLabel
+        <Grid container>
+          <Grid item xs={12}>
+            <Box>
+              <div style={{ marginBottom: "20px" }}>
+                <Button
+                  startIcon={<SendIcon />}
+                  variant="contained"
+                  style={{ marginRight: "40px" }}
+                  onClick={this.checkSubmit}
+                >
+                  Validate
+                </Button>
+                <Button
+                  startIcon={<DriveFolderUploadIcon />}
+                  variant="contained"
+                  component="label"
+                  style={{ marginRight: "40px" }}
+                >
+                  Upload from File
+                  <input type="file" hidden onChange={this.handleChange} />
+                </Button>
+                <Button
+                  startIcon={<DeleteIcon />}
+                  color="error"
+                  variant="contained"
+                  style={{ marginRight: "40px" }}
+                  onClick={this.clear}
+                >
+                  Clear
+                </Button>
+                Schematron Selection:
+                <FormLabel
+                  style={{
+                    marginLeft: "20px",
+                    marginRight: "10px",
+                    fontWeight: this.state.v3 ? 100 : 700,
+                    color: this.state.v3 ? "lightgray" : "#1976D2",
+                  }}
+                >
+                  2.1
+                </FormLabel>
+                <Switch
+                  color="primary"
+                  defaultChecked
+                  onChange={this.schematron}
+                />
+                <FormLabel
+                  style={{
+                    marginRight: "10px",
+                    fontWeight: this.state.v3 ? 700 : 100,
+                    color: this.state.v3 ? "#1976D2" : "lightgray",
+                  }}
+                >
+                  3.0
+                </FormLabel>
+              </div>
+              <Grid
+                container
                 style={{
-                  marginLeft: "20px",
-                  marginRight: "10px",
-                  fontWeight: this.state.v3 ? 100 : 700,
-                  color: this.state.v3 ? "lightgray" : "#1976D2",
+                  float: "left",
+                  display: this.state.showResults ? "block" : "none",
+                  width: "100%",
                 }}
               >
-                2.1
-              </FormLabel>
-              <Switch
-                color="primary"
-                defaultChecked
-                onChange={this.schematron}
-              />
-              <FormLabel
-                style={{
-                  marginRight: "10px",
-                  fontWeight: this.state.v3 ? 700 : 100,
-                  color: this.state.v3 ? "#1976D2" : "lightgray",
-                }}
-              >
-                3.0
-              </FormLabel>
-            </div>
-            <Grid
-              container
-              style={{
-                float: "left",
-                display: this.state.showResults ? "block" : "none",
-                width: "100%",
-              }}
-            >
-              <Grid
-                item
-                md={6}
-                xs={12}
-                style={{ float: "left", width: "100%" }}
-              >
-                <span
-                  style={{
-                    color: this.state.schemaPass ? "green" : "red",
-                  }}
+                <Grid
+                  item
+                  md={6}
+                  xs={12}
+                  style={{ float: "left", width: "100%" }}
                 >
-                  Schema Results
-                </span>
-                <span
-                  style={{
-                    color: "green",
-                    display: this.state.schemaPass ? "inline" : "none",
-                  }}
+                  <span
+                    style={{
+                      color: this.state.schemaPass ? "green" : "red",
+                    }}
+                  >
+                    Schema Results
+                  </span>
+                  <span
+                    style={{
+                      color: "green",
+                      display: this.state.schemaPass ? "inline" : "none",
+                    }}
+                  >
+                    {" "}
+                    ✓
+                  </span>
+                  <span
+                    style={{
+                      color: "red",
+                      display: this.state.schemaPass ? "none" : "inline",
+                    }}
+                  >
+                    {" "}
+                    ✗
+                  </span>
+                  <pre style={preStyle}>
+                    {JSON.stringify(this.state.results.schema, null, 2)}
+                  </pre>
+                </Grid>
+                <Grid
+                  item
+                  md={6}
+                  xs={12}
+                  style={{ float: "left", width: "100%" }}
                 >
-                  {" "}
-                  ✓
-                </span>
-                <span
-                  style={{
-                    color: "red",
-                    display: this.state.schemaPass ? "none" : "inline",
-                  }}
-                >
-                  {" "}
-                  ✗
-                </span>
-                <pre style={preStyle}>
-                  {JSON.stringify(this.state.results.schema, null, 2)}
-                </pre>
+                  <span
+                    style={{
+                      color: this.state.schematronErrors ? "red" : "green",
+                    }}
+                  >
+                    Schematron Results
+                  </span>
+                  <span
+                    style={{
+                      color: "green",
+                      display: this.state.schematronErrors ? "none" : "inline",
+                    }}
+                  >
+                    {" "}
+                    ✓
+                  </span>
+                  <span
+                    style={{
+                      color: "red",
+                      display: this.state.schematronErrors ? "inline" : "none",
+                    }}
+                  >
+                    {" "}
+                    ✗
+                  </span>
+                  <pre style={preStyle}>
+                    {JSON.stringify(this.state.results.schematron, null, 2)}
+                  </pre>
+                </Grid>
               </Grid>
-              <Grid
-                item
-                md={6}
-                xs={12}
-                style={{ float: "left", width: "100%" }}
-              >
-                <span
-                  style={{
-                    color: this.state.schematronErrors ? "red" : "green",
-                  }}
-                >
-                  Schematron Results
-                </span>
-                <span
-                  style={{
-                    color: "green",
-                    display: this.state.schematronErrors ? "none" : "inline",
-                  }}
-                >
-                  {" "}
-                  ✓
-                </span>
-                <span
-                  style={{
-                    color: "red",
-                    display: this.state.schematronErrors ? "inline" : "none",
-                  }}
-                >
-                  {" "}
-                  ✗
-                </span>
-                <pre style={preStyle}>
-                  {JSON.stringify(this.state.results.schematron, null, 2)}
-                </pre>
-              </Grid>
-            </Grid>
-            <div style={this.container_style}>
-              <textarea
-                id="line1"
-                className="lineCounter"
-                rows={this.rows}
-                style={{ float: "left" }}
-                readOnly
-                value={this.createLineCount(this.state.lineCount)}
-              />
-              <textarea
-                className="codeArea"
-                rows={this.rows}
-                placeholder="Paste XML (or click 'upload from file')"
-                value={this.state.content}
-                style={this.editor_style}
-                onScroll={this.matchScroll}
-                onChange={this.handleInput}
-                onPaste={this.handlePaste}
-              />
+              <div style={this.container_style}>
+                <textarea
+                  id="line1"
+                  className="lineCounter"
+                  rows={this.rows}
+                  style={{ float: "left" }}
+                  readOnly
+                  value={this.createLineCount(this.state.lineCount)}
+                />
+                <textarea
+                  className="codeArea"
+                  rows={this.rows}
+                  placeholder="Paste XML (or click 'upload from file')"
+                  value={this.state.content}
+                  style={this.editor_style}
+                  onScroll={this.matchScroll}
+                  onChange={this.handleInput}
+                  onPaste={this.handlePaste}
+                />
+              </div>
+            </Box>
+          </Grid>
+          <Grid item xs={12} style={{marginTop: "50px"}}>
+            <div style={{ display: "block", color: "#cccccc" }}>
+              This validation does not perform complete vocabulary checks and is
+              based on schema/schematron above. THE SOFTWARE AND RESULTS ARE
+              PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+              IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+              MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+              NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+              HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+              WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+              OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+              DEALINGS IN THE SOFTWARE
             </div>
-          </Box>
+            <div style={{ color: "#cccccc",marginTop: "20px" }}>
+              {JSON.stringify(this.state.results.info)}
+            </div>
+          </Grid>
         </Grid>
-
-        <Box>
-          <div
-            style={{ display: "block", color: "#cccccc", paddingTop: "300px" }}
-          >
-            This validation does not perform complete vocabulary checks and is
-            based on schema/schematron above. THE SOFTWARE AND RESULTS ARE
-            PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-            INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-            FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-            SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-            DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
-            OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-            SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-          </div>
-        </Box>
         <Modal
           id="modalLoading"
           open={this.state.showModal}
