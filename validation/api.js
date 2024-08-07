@@ -9,8 +9,8 @@ const cors = require('cors')
 let credentials = null;
 if  (fs.existsSync('../certs/ccda.io.key')) {
   privateKey  = fs.readFileSync('../certs/ccda.io.key', 'utf-8');
-  certificate = fs.readFileSync('../certs/__ccda.io.crt', 'utf-8');
-  ca = fs.readFileSync('../certs/__ccda_io.ca-bundle', 'utf-8')
+  certificate = fs.readFileSync('../certs/ccda.io.crt', 'utf-8');
+  ca = fs.readFileSync('../certs/ccda.io.ca-bundle', 'utf-8')
   credentials = {key: privateKey, cert: certificate, ca: ca};
 }
 
