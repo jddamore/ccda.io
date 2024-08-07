@@ -55,7 +55,7 @@ export class ResponsiveAppBar extends Component {
   handleCloseNavMenu = () => {};
 
   changeUrl = (event) => {
-    console.log(event.target.id);
+    // console.log(event.target.id);
     this.props.navigate(event.target.id);
   };
 

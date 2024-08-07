@@ -51,7 +51,7 @@ export class App extends Component {
             <Convert />
           </div>
           <div style={{ display: this.state.about ? "inline" : "none" }}>
-            <About />
+            <About navigate={this.navigate}/>
           </div>
         </div>
       </div>

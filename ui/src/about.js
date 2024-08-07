@@ -35,6 +35,12 @@ const styles = {
 */
 
 export class About extends Component {
+
+  goto = (event) => {
+    console.log(this.props)
+    this.props.navigate(event.target.id)
+  }
+
   render() {
     return (
       <div>
@@ -57,19 +63,19 @@ export class About extends Component {
             </Typography>
             <ul style={{ fontSize: "30px", color: "#555555"}}>
               <li>
-                <Button style={{ fontSize: "30px" }}>VALIDATE</Button>: A
+                <Button id="validate" style={{ fontSize: "30px" }} onClick={this.goto}>VALIDATE</Button>: A
                 Validator of C-CDA Documents
               </li>
               <li>
-                <Button style={{ fontSize: "30px" }}>RENDER</Button>: View your
+                <Button id="render" style={{ fontSize: "30px" }} onClick={this.goto}>RENDER</Button>: View your
                 C-CDA Using XLST Stylesheets
               </li>
               <li>
-                <Button style={{ fontSize: "30px" }}>FRAGMENT</Button>: Validate
+                <Button id="fragment" style={{ fontSize: "30px" }} onClick={this.goto}>FRAGMENT</Button>: Validate
                 a C-CDA Fragment
               </li>
               <li>
-                <Button style={{ fontSize: "30px" }}>CDA↔FHIR</Button>:
+                <Button id="convert" style={{ fontSize: "30px" }} onClick={this.goto}>CDA↔FHIR</Button>:
                 Highlight CDA to FHIR Conversions
               </li>
             </ul>
@@ -189,7 +195,8 @@ export class About extends Component {
               </a>
               . Downloading a local instance is best when dealing with protected
               health information. Click
-              <Button>here</Button> to check status of services may be checked
+              <Button>here</Button> to check status of services may be checked.
+              <br/>
               THE SOFTWARE AND INFORMATION ARE PROVIDED "AS IS", WITHOUT
               WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
               LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A

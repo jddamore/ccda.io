@@ -15,6 +15,8 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/joy/CircularProgress";
 
+const url = "https://api.ccda.io/";
+
 const preStyle = {
   borderColor: "gray",
   borderStyle: "dashed",
@@ -94,6 +96,7 @@ export class Validate extends Component {
       });
     } else {
       checkContent = checkContent.trimStart();
+      checkContent = checkContent.replaceAll('sdtc:', '')
       // alert(checkContent.slice(0,6));
       if (checkContent.slice(0, 6) !== "<?xml") {
         // alert('adding opening')
@@ -117,13 +120,13 @@ export class Validate extends Component {
         );
       }
       if (passingCheck) {
-        let url = "http://localhost/";
+        let editedurl = url;
         if (this.state.v3) {
-          url += "validate";
+          editedurl += "validate";
         } else {
-          url += "validate21";
+          editedurl += "validate21";
         }
-        axios.post(url, this.state.content).then((res, err) => {
+        axios.post(editedurl, this.state.content).then((res, err) => {
           //console.log(res);
           //console.log(res.data);
           if (err) {
