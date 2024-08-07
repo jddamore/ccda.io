@@ -1,8 +1,19 @@
 const express = require("express");
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
 const app = express();
 const validate = require("./validate");
 const bodyParser = require("body-parser");
 const cors = require('cors')
+let credentials = null;
+if  (fs.existsSync('./certs/ccda.io.key')) {
+  privateKey  = fs.readFileSync('./certs/ccda.io.key', 'utf-8');
+  certificate = fs.readFileSync('./certs/ccda.io.crt', 'utf-8');
+  ca = fs.readFileSync('./certs/ccda_io.ca-bundle', 'utf-8')
+  credentials = {key: privateKey, cert: certificate, ca: ca};
+}
+
 
 let now = new Date().toISOString();
 
@@ -35,6 +46,15 @@ app.get("/status", (req, res, next) => {
   res.json(info);
 });
 
-app.listen(80, () => {
-  console.log("Server running on port 80");
-});
+var httpServer = http.createServer(app);
+let httpsServer;
+if (credentials) {
+  httpsServer = https.createServer(credentials, app);
+}
+
+httpServer.listen(80);
+if (httpsServer) {
+  httpsServer.listen(443);
+  console.log('listening on HTTP and HTTPS...')
+}
+else console.log('HTTPS server not running...')
