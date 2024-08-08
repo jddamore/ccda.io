@@ -35,11 +35,10 @@ const styles = {
 */
 
 export class About extends Component {
-
   goto = (event) => {
-    console.log(this.props)
-    this.props.navigate(event.target.id)
-  }
+    console.log(this.props);
+    this.props.navigate(event.target.id);
+  };
 
   render() {
     return (
@@ -61,22 +60,46 @@ export class About extends Component {
               information. This web app provides the utilities listed below for
               handling C-CDA documents:
             </Typography>
-            <ul style={{ fontSize: "30px", color: "#555555"}}>
+            <ul style={{ fontSize: "30px", color: "#555555" }}>
               <li>
-                <Button id="validate" style={{ fontSize: "30px" }} onClick={this.goto}>VALIDATE</Button>: A
-                Validator of C-CDA Documents
+                <Button
+                  id="validate"
+                  style={{ fontSize: "30px" }}
+                  onClick={this.goto}
+                >
+                  VALIDATE
+                </Button>
+                : A Validator of C-CDA Documents
               </li>
               <li>
-                <Button id="render" style={{ fontSize: "30px" }} onClick={this.goto}>RENDER</Button>: View your
-                C-CDA Using XLST Stylesheets
+                <Button
+                  id="render"
+                  style={{ fontSize: "30px" }}
+                  onClick={this.goto}
+                >
+                  RENDER
+                </Button>
+                : View your C-CDA Using XLST Stylesheets
               </li>
               <li>
-                <Button id="fragment" style={{ fontSize: "30px" }} onClick={this.goto}>FRAGMENT</Button>: Validate
-                a C-CDA Fragment
+                <Button
+                  id="fragment"
+                  style={{ fontSize: "30px" }}
+                  onClick={this.goto}
+                >
+                  FRAGMENT
+                </Button>
+                : Validate a C-CDA Fragment
               </li>
               <li>
-                <Button id="convert" style={{ fontSize: "30px" }} onClick={this.goto}>CDA↔FHIR</Button>:
-                Highlight CDA to FHIR Conversions
+                <Button
+                  id="convert"
+                  style={{ fontSize: "30px" }}
+                  onClick={this.goto}
+                >
+                  CDA↔FHIR
+                </Button>
+                : Highlight CDA to FHIR Conversions
               </li>
             </ul>
             Here are some other useful resources, hosted elsewhere:
@@ -150,9 +173,9 @@ export class About extends Component {
                 Public C-CDA Samples
               </Typography>
               <Typography variant="body1" color="text.secondary">
-                401 samples from certified Health Information Technologies
-                (Health IT) are hosted in this public repository as part of a
-                2018 research project
+                401 C-CDA R2.1 samples from certified Health Information
+                Technologies (Health IT) are hosted in this public repository as
+                part of a 2018 research project
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -196,7 +219,7 @@ export class About extends Component {
               . Downloading a local instance is best when dealing with protected
               health information. Click
               <Button>here</Button> to check status of services may be checked.
-              <br/>
+              <br />
               THE SOFTWARE AND INFORMATION ARE PROVIDED "AS IS", WITHOUT
               WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
               LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A

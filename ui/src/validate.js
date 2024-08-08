@@ -14,8 +14,14 @@ import xmlFormat from "xml-formatter";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/joy/CircularProgress";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
-const url = "https://api.ccda.io/";
+let url = "https://api.ccda.io";
+if (window.config.apiUrl) {
+  url = window.config.apiUrl;
+}
 
 const preStyle = {
   borderColor: "gray",
@@ -54,6 +60,8 @@ export class Validate extends Component {
     },
     showResults: false,
     showModal: false,
+    tooltipSchema: "Copy Schema Feedback",
+    tooltipSchematron: "Copy Schematron Feedback",
   };
 
   rows = 50;
@@ -96,59 +104,84 @@ export class Validate extends Component {
       });
     } else {
       checkContent = checkContent.trimStart();
-      checkContent = checkContent.replaceAll('sdtc:', '')
-      // alert(checkContent.slice(0,6));
-      if (checkContent.slice(0, 6) !== "<?xml") {
-        // alert('adding opening')
-        checkContent =
-          '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
-          checkContent;
+      checkContent = checkContent.replaceAll("sdtc:", "");
+      if (
+        checkContent.slice(0, 6) === "<Clini" ||
+        checkContent.slice(0, 6) === "<?xml-"
+      ) {
+        checkContent = '<?xml version="1.0" encoding="UTF-8"?>' + checkContent;
       }
-      try {
-        xmlChecker.check(checkContent);
-        passingCheck = true;
-      } catch (error) {
-        alert(
-          "Not submitting due to invalid XML! XML Parser: " +
-            error.name +
-            " at " +
-            error.line +
-            "," +
-            error.column +
-            ": " +
-            error.message
-        );
-      }
-      if (passingCheck) {
-        let editedurl = url;
-        if (this.state.v3) {
-          editedurl += "validate";
-        } else {
-          editedurl += "validate21";
-        }
-        axios.post(editedurl, this.state.content).then((res, err) => {
-          //console.log(res);
-          //console.log(res.data);
-          if (err) {
-            alert(err);
-          } else {
-            if (res.data && res.data.schema && res.data.schematron) {
-              this.setState({
-                results: res.data,
-                schemaPass: res.data.schema.pass,
-                schematronErrors: res.data.schematron.errorCount,
-                showResults: true,
-                showModal: false,
-              });
-            } else {
-              alert(`unexpected response: ${JSON.stringify(res.data)}`);
-            }
-          }
-        });
-      } else {
+      if (checkContent.slice(0, 6) !== "<?xml ") {
+        alert("XML must begin with <?xml> or <ClinicalDocument> tag");
         this.setState({
           showModal: false,
         });
+      } else {
+        try {
+          xmlChecker.check(checkContent);
+          passingCheck = true;
+        } catch (error) {
+          alert(
+            "Not submitting due to invalid XML! XML Parser: " +
+              error.name +
+              " at " +
+              error.line +
+              "," +
+              error.column +
+              ": " +
+              error.message
+          );
+        }
+        if (passingCheck) {
+          console.log(`sending to ${url}`);
+          let editedurl = url;
+          if (this.state.v3) {
+            editedurl += "/validate";
+          } else {
+            editedurl += "/validate21";
+          }
+            axios.post(editedurl, this.state.content).then((res, err) => {
+              //console.log(res);
+              //console.log(res.data);
+              if (err) {
+                alert(err);
+                this.setState({
+                  showModal: false,
+                });
+              } 
+              else if (res.status !== 200) {
+                alert('Server unavailable')
+                this.setState({
+                  showModal: false,
+                });
+              }
+              else {
+                if (res.data && res.data.schema && res.data.schematron) {
+                  this.setState({
+                    results: res.data,
+                    schemaPass: res.data.schema.pass,
+                    schematronErrors: res.data.schematron.errorCount,
+                    showResults: true,
+                    showModal: false,
+                  });
+                } else {
+                  alert(`unexpected response: ${JSON.stringify(res.data)}`);
+                  this.setState({
+                    showModal: false,
+                  });
+                }
+              }
+            }).catch(err => {
+                alert(err);
+                this.setState({
+                  showModal: false,
+                })
+            });
+        } else {
+          this.setState({
+            showModal: false,
+          });
+        }
       }
     }
   };
@@ -194,6 +227,29 @@ export class Validate extends Component {
       outarr[x] = x + 1 + ".";
     }
     return outarr.join("\n");
+  };
+
+  copyContents = (event) => {
+    console.log(event.target);
+    if (event.target.id === "schemaCopy") {
+      navigator.clipboard.writeText(
+        JSON.stringify(this.state.results.schema, null, 2)
+      );
+    } else {
+      navigator.clipboard.writeText(
+        JSON.stringify(this.state.results.schematron, null, 2)
+      );
+    }
+    this.setState({
+      tooltipSchema: "Copied!",
+      tooltipSchematron: "Copied!",
+    });
+    setTimeout(() => {
+      this.setState({
+        tooltipSchema: "Copy Schema Feedback",
+        tooltipSchematron: "Copy Schematron Feedback",
+      })
+    }, 3000);
   };
 
   handleInput = (event) => {
@@ -337,6 +393,11 @@ export class Validate extends Component {
                     {" "}
                     ✗
                   </span>
+                  <Tooltip title={this.state.tooltipSchema}>
+                    <IconButton id="schemaCopy" onClick={this.copyContents}>
+                      <ContentCopyIcon id="schemaCopy"/>
+                    </IconButton>
+                  </Tooltip>
                   <pre style={preStyle}>
                     {JSON.stringify(this.state.results.schema, null, 2)}
                   </pre>
@@ -372,6 +433,11 @@ export class Validate extends Component {
                     {" "}
                     ✗
                   </span>
+                  <Tooltip title={this.state.tooltipSchematron}>
+                    <IconButton id="schematronCopy" onClick={this.copyContents}>
+                      <ContentCopyIcon id="schematronCopy"/>
+                    </IconButton>
+                  </Tooltip>
                   <pre style={preStyle}>
                     {JSON.stringify(this.state.results.schematron, null, 2)}
                   </pre>
@@ -399,7 +465,7 @@ export class Validate extends Component {
               </div>
             </Box>
           </Grid>
-          <Grid item xs={12} style={{marginTop: "50px"}}>
+          <Grid item xs={12} style={{ marginTop: "50px" }}>
             <div style={{ display: "block", color: "#cccccc" }}>
               This validation does not perform complete vocabulary checks and is
               based on schema/schematron above. THE SOFTWARE AND RESULTS ARE
@@ -412,7 +478,7 @@ export class Validate extends Component {
               OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
               DEALINGS IN THE SOFTWARE
             </div>
-            <div style={{ color: "#cccccc",marginTop: "20px" }}>
+            <div style={{ color: "#cccccc", marginTop: "20px" }}>
               {JSON.stringify(this.state.results.info)}
             </div>
           </Grid>

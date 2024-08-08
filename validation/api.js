@@ -7,6 +7,7 @@ const validate = require("./validate");
 const bodyParser = require("body-parser");
 const cors = require('cors')
 let credentials = null;
+
 if  (fs.existsSync('../certs/ccda.io.key')) {
   privateKey  = fs.readFileSync('../certs/ccda.io.key', 'utf-8');
   certificate = fs.readFileSync('../certs/ccda.io.crt', 'utf-8');
@@ -52,9 +53,12 @@ if (credentials) {
   httpsServer = https.createServer(credentials, app);
 }
 
-httpServer.listen(80);
 if (httpsServer) {
+  httpServer.listen(80);
   httpsServer.listen(443);
   console.log('listening on HTTP and HTTPS...')
 }
-else console.log('HTTPS server not running...')
+else {
+  httpServer.listen(8080);
+  console.log('HTTPS server not running...Hosting locally on PORT 8080')
+}
