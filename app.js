@@ -39,4 +39,4 @@ if (httpsServer) {
   httpsServer.listen(443);
   console.log('listening on HTTP and HTTPS...')
 }
-else console.log('HTTPS server not running...')
+else console.log('listening on port 80, HTTPS server not running...')
