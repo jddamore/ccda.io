@@ -15,7 +15,6 @@ The applications are written in Node.js (JavaScript) and React (Javascript/HTML)
 There are two processes to start to host the application. These can both be hosted locally:
 
 1) **OPTIONAL**: API for the validator for C-CDA schema/schematron. Navigate to the "validation" directory and run ```node ./api.js```. Note that you must be in this directory to run the validator due to nested schematron directory references. 
-<br/>
 2) **REQUIRED**: Web hosting of React App in the primary repository directory. 
   a) If you started the validator API locally, just run ```node ./app.js```
   b) If you skipped hosting an API locally, go to the file in ./build/config.js and change the apiUrl variable to "https://api.ccda.ui" Note that you are still submitting data to a public endpoint in this case, so not appropriate for protected health information. Then run ```node ./app.js```
