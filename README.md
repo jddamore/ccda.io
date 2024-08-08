@@ -1,6 +1,10 @@
 # ccda.io
 A set of tools for C-CDA validation and display. Initially developed for August 2024 C-CDA Implement-a-thon. If you don't know what C-CDA is, start [here for the US standard](https://hl7.org/cda/us/ccda/index.html).
 
+It's currently hosted on the following URLs: 
+- https://ccda.io/
+- https://api.ccda.io/
+
 ## Development Status
 - Validator (Whole Document): <span style="color:green">✓ working with C-CDA 2.1 & 3.0</span>
 - XSLT Stylehseet Renderer: <span style="color:orange">✗ not done</span>
