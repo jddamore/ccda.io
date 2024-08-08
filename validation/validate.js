@@ -100,6 +100,8 @@ exports.validate21 = function (xml, info) {
   let schematron_results = validator.validate(xml, v21schematron);
   schematron_results.ignored.push({test: "CONF:1198-32934 through 1198-32946", type: "error"})
   schematron_results.ignored.push({test: "1098-32775", type: "warning"})
+  schematron_results.ignored.push({test: "1098-32776", type: "warning"})
+  schematron_results.ignored.push({test: "1098-7508-c", type: "error"})
   return {
       schema: schema_results,
       schematron: schematron_results, 
