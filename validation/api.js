@@ -28,7 +28,7 @@ let info = {
   onlineSince: now,
 };
 
-let info21 = info
+let info21 = JSON.parse(JSON.stringify(info))
 info21.schematronVersion = 'C-CDA R2.1 with Companion Guide from https://github.com/HL7/CDA-ccda-2.1 and https://github.com/HL7/CDA-ccda-companion'
 
 app.use(cors());
@@ -40,7 +40,7 @@ app.post("/validate", (req, res, next) => {
 });
 
 app.post("/validate21", (req, res, next) => {
-  res.json(validate.validate21(req.body.toString(), info));
+  res.json(validate.validate21(req.body.toString(), info21));
 });
 
 app.get("/status", (req, res, next) => {
