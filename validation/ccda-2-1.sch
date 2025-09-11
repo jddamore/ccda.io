@@ -6884,8 +6884,10 @@ UDI       Schematron generated from Trifolia on 4/22/2022
       <sch:assert id="a-1098-7499" test="count(cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16'][@extension='2014-06-09'])=1">SHALL contain exactly one [1..1] templateId (CONF:1098-7499) such that it SHALL contain exactly one [1..1] @root="2.16.840.1.113883.10.20.22.4.16" (CONF:1098-10504). SHALL contain exactly one [1..1] @extension="2014-06-09" (CONF:1098-32498).</sch:assert>
       <sch:assert id="a-1098-7500" test="count(cda:id) &gt; 0">SHALL contain at least one [1..*] id (CONF:1098-7500).</sch:assert>
       <sch:assert id="a-1098-7507" test="count(cda:statusCode)=1">SHALL contain exactly one [1..1] statusCode (CONF:1098-7507).</sch:assert>
-      <sch:assert id="a-1098-7508-c" test="count(cda:effectiveTime[(cda:low or @value or @nullFlavor) and not(cda:low and @value)])=1">SHALL contain exactly one [1..1] effectiveTime (CONF:1098-7508) such that it SHALL contain either a low or a @value but not both (CONF:1098-32890).</sch:assert>
-      <sch:assert id="a-1098-28499-c" test="count(cda:effectiveTime[@operator='A'])=0 or count(cda:effectiveTime[@operator='A' and (@xsi:type='PIVL_TS' or @xsi:type='EIVL_TS')])=1">**SHALL** contain exactly one [1..1] @xsi:type="PIVL_TS" or "EIVL_TS" (CONF:1098-28499).</sch:assert>
+      <!--
+	  <sch:assert id="a-1098-7508-c" test="count(cda:effectiveTime[(cda:low or @value or @nullFlavor) and not(cda:low and @value)])=1">SHALL contain exactly one [1..1] effectiveTime (CONF:1098-7508) such that it SHALL contain either a low or a @value but not both (CONF:1098-32890).</sch:assert>
+      -->
+	  <sch:assert id="a-1098-28499-c" test="count(cda:effectiveTime[@operator='A'])=0 or count(cda:effectiveTime[@operator='A' and (@xsi:type='PIVL_TS' or @xsi:type='EIVL_TS')])=1">**SHALL** contain exactly one [1..1] @xsi:type="PIVL_TS" or "EIVL_TS" (CONF:1098-28499).</sch:assert>
       <sch:assert id="a-1098-7516" test="count(cda:doseQuantity)=1">SHALL contain exactly one [1..1] doseQuantity (CONF:1098-7516).</sch:assert>
       <sch:assert id="a-1098-7525" test="not(cda:rateQuantity) or cda:rateQuantity[@unit]">The rateQuantity, if present, SHALL contain exactly one [1..1] @unit, which SHOULD be selected from ValueSet UnitsOfMeasureCaseSensitive urn:oid:2.16.840.1.113883.1.11.12839 DYNAMIC (CONF:1098-7525).</sch:assert>
       <sch:assert id="a-1098-7520" test="count(cda:consumable)=1">SHALL contain exactly one [1..1] consumable (CONF:1098-7520).</sch:assert>
@@ -8551,10 +8553,10 @@ UDI       Schematron generated from Trifolia on 4/22/2022
       <sch:extends rule="r-urn-hl7ii-2.16.840.1.113883.10.20.22.4.16-2014-06-09-warnings-abstract" />
     </sch:rule>
     <sch:rule id="r-urn-hl7ii-2.16.840.1.113883.10.20.22.4.16-2014-06-09-7508-branch-7508-warnings-abstract" abstract="true">
-      <!-- Commented out since it's very spurious
+      <!-- Commented out since both are very spurious
       <sch:assert id="a-1098-32775-branch-7508" test="@value">SHOULD contain zero or one [0..1] @value (CONF:1098-32775).</sch:assert>    
-      -->
       <sch:assert id="a-1098-32776-branch-7508" test="count(cda:low)=1">SHOULD contain zero or one [0..1] low (CONF:1098-32776).</sch:assert>
+      -->
     </sch:rule>
     <sch:rule id="r-urn-hl7ii-2.16.840.1.113883.10.20.22.4.16-2014-06-09-7508-branch-7508-warnings" context="cda:substanceAdministration[cda:templateId[@root='2.16.840.1.113883.10.20.22.4.16' and @extension='2014-06-09']]/cda:effectiveTime">
       <sch:extends rule="r-urn-hl7ii-2.16.840.1.113883.10.20.22.4.16-2014-06-09-7508-branch-7508-warnings-abstract" />

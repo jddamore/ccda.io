@@ -1,6 +1,10 @@
 # ccda.io
 A set of tools for C-CDA validation and display. Initially developed for August 2024 C-CDA Implement-a-thon. If you don't know what C-CDA is, start [here for the US standard](https://hl7.org/cda/us/ccda/index.html).
 
+It's currently hosted on the following URLs: 
+- https://ccda.io/
+- https://api.ccda.io/
+
 ## Development Status
 - Validator (Whole Document): <span style="color:green">✓ working with C-CDA 2.1 & 3.0</span>
 - XSLT Stylehseet Renderer: <span style="color:orange">✗ not done</span>
@@ -31,7 +35,7 @@ The validation engine is highly dependent on work from these two repositories (a
 [Benjamin Flessner](https://github.com/benjaminflessner) has been instrumental in developing the tools to create schematron for C-CDA from the new 3.0 release. The HL7 repositories referenced in this project include: 
 
 -   https://github.com/HL7/CDA-core-2.0 (CDA R2 schema)
--   https://github.com/hl7/CDA-ccda (C-CDA 3.0 version with schematron)
+-   https://github.com/HL7/CDA-ccda (C-CDA 3.0 version with schematron)
 -   https://github.com/HL7/CDA-ccda-2.1 (C-CDA 2.1 version with schematron)
 
 Prior open-source work to be included in the repository: 

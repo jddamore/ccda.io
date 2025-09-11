@@ -581,8 +581,7 @@ Guide.
 								<low value="20110103" />
 								<high nullFlavor="UNK" />
 							</effectiveTime>
-							<effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A" value="">
-								<low value="" />
+							<effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A" nullFlavor="OTH">
 								<period value="6" unit="h" />
 							</effectiveTime>
 							<routeCode code="C38216" codeSystem="2.16.840.1.113883.3.26.1.1"
@@ -608,16 +607,6 @@ Guide.
 									</manufacturerOrganization>
 								</manufacturedProduct>
 							</consumable>
-							<author typeCode="AUT">
-								<templateId root="2.16.840.1.113883.10.20.22.4.119" />
-								<time value="199805011145-0800" />
-								<assignedAuthor>
-									<id extension="222223333" root="2.16.840.1.113883.4.6" />
-									<code code="207KA0200X" displayName="Allergy"
-										codeSystem="2.16.840.1.113883.6.101"
-										codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
-								</assignedAuthor>
-							</author>
 							<performer>
 								<assignedEntity>
 									<id extension="5555555555" root="2.16.840.1.113883.4.6" />
@@ -631,6 +620,16 @@ Guide.
 									</representedOrganization>
 								</assignedEntity>
 							</performer>
+							<author typeCode="AUT">
+								<templateId root="2.16.840.1.113883.10.20.22.4.119" />
+								<time value="199805011145-0800" />
+								<assignedAuthor>
+									<id extension="222223333" root="2.16.840.1.113883.4.6" />
+									<code code="207KA0200X" displayName="Allergy"
+										codeSystem="2.16.840.1.113883.6.101"
+										codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
+								</assignedAuthor>
+							</author>
 							<participant typeCode="CSM">
 								<participantRole classCode="MANU">
 									<!-- ** Drug vehicle ** -->
@@ -1380,6 +1379,17 @@ Guide.
 								<low value="20120910" />
 								<high value="20120910" />
 							</effectiveTime>
+							<author typeCode="AUT">
+								<templateId root="2.16.840.1.113883.10.20.22.4.119" />
+								<!-- Same as Concern effectiveTime/low -->
+								<time value="199805011145-0800" />
+								<assignedAuthor>
+									<id extension="555555555" root="2.16.840.1.113883.4.6" />
+									<code code="207QA0505X" displayName="Adult Medicine"
+										codeSystem="2.16.840.1.113883.6.101"
+										codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
+								</assignedAuthor>
+							</author>
 							<component>
 								<observation classCode="OBS" moodCode="EVN">
 									<!-- ** Vital sign observation (V2) ** -->
@@ -1404,17 +1414,7 @@ Guide.
 									</author>
 								</observation>
 							</component>
-							<author typeCode="AUT">
-								<templateId root="2.16.840.1.113883.10.20.22.4.119" />
-								<!-- Same as Concern effectiveTime/low -->
-								<time value="199805011145-0800" />
-								<assignedAuthor>
-									<id extension="555555555" root="2.16.840.1.113883.4.6" />
-									<code code="207QA0505X" displayName="Adult Medicine"
-										codeSystem="2.16.840.1.113883.6.101"
-										codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
-								</assignedAuthor>
-							</author>
+							
 						</organizer>
 					</entry>
 				</section>
@@ -1550,6 +1550,17 @@ Guide.
 								<low value="200803190830-0800" />
 								<high value="200803190830-0800" />
 							</effectiveTime>
+							<author typeCode="AUT">
+								<templateId root="2.16.840.1.113883.10.20.22.4.119" />
+								<!-- Same as Concern effectiveTime/low -->
+								<time value="199805011145-0800" />
+								<assignedAuthor>
+									<id extension="555555555" root="2.16.840.1.113883.4.6" />
+									<code code="207QA0505X" displayName="Adult Medicine"
+										codeSystem="2.16.840.1.113883.6.101"
+										codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
+								</assignedAuthor>
+							</author>
 							<component>
 								<observation classCode="OBS" moodCode="EVN">
 									<!-- ** Result observation (V3) ** -->
@@ -1582,17 +1593,6 @@ Guide.
 									</referenceRange>
 								</observation>
 							</component>
-							<author typeCode="AUT">
-								<templateId root="2.16.840.1.113883.10.20.22.4.119" />
-								<!-- Same as Concern effectiveTime/low -->
-								<time value="199805011145-0800" />
-								<assignedAuthor>
-									<id extension="555555555" root="2.16.840.1.113883.4.6" />
-									<code code="207QA0505X" displayName="Adult Medicine"
-										codeSystem="2.16.840.1.113883.6.101"
-										codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
-								</assignedAuthor>
-							</author>
 						</organizer>
 					</entry>
 				</section>

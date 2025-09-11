@@ -140,7 +140,9 @@ export class Validate extends Component {
           } else {
             editedurl += "/validate21";
           }
-            axios.post(editedurl, this.state.content).then((res, err) => {
+          axios
+            .post(editedurl, this.state.content)
+            .then((res, err) => {
               //console.log(res);
               //console.log(res.data);
               if (err) {
@@ -148,14 +150,12 @@ export class Validate extends Component {
                 this.setState({
                   showModal: false,
                 });
-              } 
-              else if (res.status !== 200) {
-                alert('Server unavailable')
+              } else if (res.status !== 200) {
+                alert("Server unavailable");
                 this.setState({
                   showModal: false,
                 });
-              }
-              else {
+              } else {
                 if (res.data && res.data.schema && res.data.schematron) {
                   this.setState({
                     results: res.data,
@@ -171,11 +171,12 @@ export class Validate extends Component {
                   });
                 }
               }
-            }).catch(err => {
-                alert(err);
-                this.setState({
-                  showModal: false,
-                })
+            })
+            .catch((err) => {
+              alert(err);
+              this.setState({
+                showModal: false,
+              });
             });
         } else {
           this.setState({
@@ -248,7 +249,7 @@ export class Validate extends Component {
       this.setState({
         tooltipSchema: "Copy Schema Feedback",
         tooltipSchematron: "Copy Schematron Feedback",
-      })
+      });
     }, 3000);
   };
 
@@ -304,8 +305,9 @@ export class Validate extends Component {
               <div style={{ marginBottom: "20px" }}>
                 <Button
                   startIcon={<SendIcon />}
+                  color="success"
                   variant="contained"
-                  style={{ marginRight: "40px" }}
+                  style={{ marginRight: "40px", backgroundColor:"#2E8B57" }}
                   onClick={this.checkSubmit}
                 >
                   Validate
@@ -395,7 +397,7 @@ export class Validate extends Component {
                   </span>
                   <Tooltip title={this.state.tooltipSchema}>
                     <IconButton id="schemaCopy" onClick={this.copyContents}>
-                      <ContentCopyIcon id="schemaCopy"/>
+                      <ContentCopyIcon id="schemaCopy" />
                     </IconButton>
                   </Tooltip>
                   <pre style={preStyle}>
@@ -435,7 +437,7 @@ export class Validate extends Component {
                   </span>
                   <Tooltip title={this.state.tooltipSchematron}>
                     <IconButton id="schematronCopy" onClick={this.copyContents}>
-                      <ContentCopyIcon id="schematronCopy"/>
+                      <ContentCopyIcon id="schematronCopy" />
                     </IconButton>
                   </Tooltip>
                   <pre style={preStyle}>
