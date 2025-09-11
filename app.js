@@ -17,6 +17,11 @@ let now = new Date().toISOString();
 
 app.use(express.static(path.join(__dirname, './build')));
 
+
+app.get('/sd', (req, res) => {
+  res.redirect('https://confluence.hl7.org/spaces/SD/pages/358274896/Attendance+Sheet+SDWG+September+2025+WGM');
+});
+
 app.use((req, res, next) => {
     if (/(.ico|.js|.css|.jpg|.png|.map)$/i.test(req.path)) {
         next();
