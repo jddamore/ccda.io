@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, './build')));
 
 
 app.get('/sd', (req, res) => {
-  res.redirect('https://confluence.hl7.org/spaces/SD/pages/358274896/Attendance+Sheet+SDWG+September+2025+WGM');
+  res.redirect('https://confluence.hl7.org/spaces/SD/pages/468260422/Attendance+Sheet+SDWG+September+2026+WGM');
 });
 
 app.use((req, res, next) => {
